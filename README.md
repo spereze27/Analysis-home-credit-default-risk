@@ -29,15 +29,18 @@ De este analisis obtenemos que:
 * *Variable objetivo:* La variable Target es la variable que deseamos predecir en el modelo de aprendizaje supervizado, es de tipo binario en donde
    * 1 → La persona incurrió en mora
    * 0 → La persona no incurrió en mora
-* *Columnas que pueden descartarse:* A continuación se presentan algunas columnas que conviene eliminar por tener poca o ninguna utilidad predictiva:
+* *Columnas que pueden descartarse sin analisis mas detallado:* A continuación se presentan algunas columnas que conviene eliminar por tener poca o ninguna utilidad:
   
-| Columna                                | Motivo de descarte                                                                                     |
-|----------------------------------------|----------------------------------------------------------------------------------------------------------|
-| `FLAG_DOCUMENT_2` a `FLAG_DOCUMENT_21` | Indicadores de documentos que suelen estar vacíos o con muy poca variación.                             |
-| `LIVE_CITY_NOT_WORK_CITY`              | Valores redundantes o con distribución muy sesgada.                                                     |
-| `WEEKDAY_APPR_PROCESS_START`           | Día de la semana en que inició la solicitud. Poca relación esperada con el riesgo de mora.              |
-| `HOUR_APPR_PROCESS_START`              | Hora de la solicitud. Poco probable que influya en la capacidad de pago.                                |
-| `EMERGENCYSTATE_MODE`                  | Contiene muchos valores faltantes y su significado es ambiguo.                                          |
+| Columna                        | Motivo de descarte                                                                                       |
+|-------------------------------|------------------------------------------------------------------------------------------------------------|
+| `NAME_TYPE_SUITE`             | El 80.82% de los registros tienen el valor `'Unaccompanied'`, lo cual indica muy baja diversidad. No aporta segmentación relevante. |
+| `DAYS_REGISTRATION`           | Fecha de registro del cliente, no es directamente útil para perfilar comportamiento crediticio.           |
+| `DAYS_ID_PUBLISH`             | Fecha de emisión del documento de identidad. Poco valor predictivo o segmentador.                         |
+| `WEEKDAY_APPR_PROCESS_START`  | Día de la semana en que se inició la solicitud. No tiene relación con el perfil de riesgo del cliente.     |
+| `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
+| `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
+| `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante frente a otras formas de contacto más completas.    |
+
 
 
 
