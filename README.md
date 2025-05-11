@@ -30,7 +30,7 @@ De este analisis obtenemos que:
    * 1 → La persona incurrió en mora
    * 0 → La persona no incurrió en mora
 * *Columnas que pueden descartarse:* A continuación se presentan algunas columnas que conviene eliminar por tener poca o ninguna utilidad predictiva:
-  | Columna                                | Motivo de descarte                                                                                     |
+| Columna                                | Motivo de descarte                                                                                     |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `FLAG_DOCUMENT_2` a `FLAG_DOCUMENT_21` | Indicadores de documentos que suelen estar vacíos o con muy poca variación. Poca utilidad informativa. |
 | `LIVE_CITY_NOT_WORK_CITY`              | Variables con valores redundantes o con distribución muy sesgada.                                      |
