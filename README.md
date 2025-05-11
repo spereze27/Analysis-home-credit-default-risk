@@ -26,7 +26,8 @@ La tabla HomeCredit_columns_description.csv es la ms importante en este analisis
 
 De este analisis obtenemos que:
 
-* Variables 
+* *Variable objetivo:* La variable Target es la variable que deseamos predecir en el modelo de aprendizaje supervizado, es de tipo binario donde
+   * 1 significa que la persona incurrio en mora 
 
 
 
