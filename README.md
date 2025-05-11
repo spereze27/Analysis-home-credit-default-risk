@@ -39,7 +39,7 @@ De este analisis obtenemos que:
 | `WEEKDAY_APPR_PROCESS_START`  | Día de la semana en que se inició la solicitud. No tiene relación con el perfil de riesgo del cliente.     |
 | `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
 | `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
-| `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante frente a otras formas de contacto más completas.    |
+| `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante si ya se considera el móvil.   |
 
 
 
