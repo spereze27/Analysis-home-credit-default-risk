@@ -35,7 +35,7 @@ De este analisis obtenemos que:
 |-------------------------------|------------------------------------------------------------------------------------------------------------|
 | `NAME_TYPE_SUITE`             | Despues de un analisis rapido se encuentra que el 80.82% de los registros tienen el valor `'Unaccompanied'`, lo cual indica muy baja diversidad. No aporta segmentación relevante. |
 | `DAYS_REGISTRATION`           | Fecha de registro del cliente, no es directamente útil para perfilar comportamiento crediticio.           |
-| `DAYS_ID_PUBLISH`             | Fecha de emisión del documento de identidad. Poco valor predictivo o segmentador.                         |
+| `DAYS_ID_PUBLISH`             | Fecha de emisión del documento de identidad. Poco valor informativo teniento datos como fecha de nacimiento.                         |
 | `WEEKDAY_APPR_PROCESS_START`  | Día de la semana en que se inició la solicitud. No tiene relación con el perfil de riesgo del cliente.     |
 | `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
 | `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
