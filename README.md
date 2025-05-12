@@ -1,7 +1,7 @@
-# Analisis de riesgo de credito 
+### Analisis de riesgo de credito 
 A continuacion se presenta el desarrollo de un modelo de predicción de capacidad de pago de creditos de los clientes basado en diferentes datos suministrados por Home Credit en Kaggle.
 
-# Carga Inicial de Datos
+### Carga Inicial de Datos
 
 El primer paso para realizar la creacion y evaluacion de modelos analiticos utiles para este ejercicio es cargar y entender los datos que nos suministran.
 Se cargaron los archivos principales del dataset Home Credit Default Risk, distribuidos en varias tablas relacionadas. Las tablas y su descripcion resumida son:
@@ -20,11 +20,13 @@ Se cargaron los archivos principales del dataset Home Credit Default Risk, distr
 
 * HomeCredit_columns_description.csv: Diccionario con la descripción de cada variable.
   
-# Analisis preliminar (entendimiento de los datos)
+### Analisis preliminar (entendimiento de los datos)
 
 La tabla HomeCredit_columns_description.csv es la ms importante en este analisis preliminar ya que nos permite discriminar el tipo de dato que es cada variable para poder catalogarlas en numericas, fechas, valores binarios o categorias. Tambien permite identificar columnas que no suministran información significativa o que son redundantes.
 
 De este analisis obtenemos que:
+
+* *Variable de union:* La variable `SK_ID_CURR` es el ID unico de cada cliente y esta nos permitira realizar uniones entre tablas.
 
 * *Variable objetivo:* La variable Target es la variable que deseamos predecir en el modelo de aprendizaje supervizado, es de tipo binario en donde
    * 1 → La persona incurrió en mora
@@ -40,6 +42,10 @@ De este analisis obtenemos que:
 | `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
 | `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
 | `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante si ya se considera el móvil.   |
+
+* *Columnas que pueden resumirse:* :
+
+### Preprocesamiento de la data
 
 
 
