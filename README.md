@@ -1,30 +1,25 @@
-# Analisis de riesgo de credito 
+### Analisis de riesgo de credito 
 A continuacion se presenta el desarrollo de un modelo de predicción de capacidad de pago de creditos de los clientes basado en diferentes datos suministrados por Home Credit en Kaggle.
+Para este ejercicio se trabajara sobre un subconjunto de datos que contiene los datos de la tabla train/test (tabla que contiene toda la informacion general), installments_payments que contiene informacion del comportamiento financiero (historial de pagos) y previous_application ya que refleja antecedentes enfocados en esta misma institución financiera (no como beruau que se enfoca en otras entidades, esto puede que el modelo encuentre sumamente complicado detectar un patron), es importate destacar que las razones de acptacion o rechazo pueden variar entre instituciones financieras.
 
-# Carga Inicial de Datos
+### Carga Inicial de Datos
 
 El primer paso para realizar la creacion y evaluacion de modelos analiticos utiles para este ejercicio es cargar y entender los datos que nos suministran.
 Se cargaron los archivos principales del dataset Home Credit Default Risk, distribuidos en varias tablas relacionadas. Las tablas y su descripcion resumida son:
 
 * application_train.csv: Información general del cliente y la variable objetivo (TARGET).
 
-* bureau.csv y bureau_balance.csv: Historial crediticio del cliente con otras entidades.
-
 * previous_application.csv: Detalles sobre solicitudes de crédito anteriores.
 
-* POS_CASH_balance.csv: Comportamiento de crédito en punto de venta.
-
 * installments_payments.csv: Historial de pagos de cuotas.
-
-* credit_card_balance.csv: Actividad de tarjetas de crédito.
-
-* HomeCredit_columns_description.csv: Diccionario con la descripción de cada variable.
   
-# Analisis preliminar (entendimiento de los datos)
+### Analisis preliminar (entendimiento de los datos)
 
 La tabla HomeCredit_columns_description.csv es la ms importante en este analisis preliminar ya que nos permite discriminar el tipo de dato que es cada variable para poder catalogarlas en numericas, fechas, valores binarios o categorias. Tambien permite identificar columnas que no suministran información significativa o que son redundantes.
 
 De este analisis obtenemos que:
+
+* *Variable de union:* La variable `SK_ID_CURR` es el ID unico de cada cliente y esta nos permitira realizar uniones entre tablas.
 
 * *Variable objetivo:* La variable Target es la variable que deseamos predecir en el modelo de aprendizaje supervizado, es de tipo binario en donde
    * 1 → La persona incurrió en mora
@@ -37,9 +32,47 @@ De este analisis obtenemos que:
 | `DAYS_REGISTRATION`           | Fecha de registro del cliente, no es directamente útil para perfilar comportamiento crediticio.           |
 | `DAYS_ID_PUBLISH`             | Fecha de emisión del documento de identidad. Poco valor informativo teniento datos como fecha de nacimiento.                         |
 | `WEEKDAY_APPR_PROCESS_START`  | Día de la semana en que se inició la solicitud. No tiene relación con el perfil de riesgo del cliente.     |
-| `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
+| `HOUR_APPR_PROCESS_START` `DAY_APPR_PROCESS_START`    | Hora y día de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
+| `APARTMENTS_MEDI` y variables referentes a estadisticos de vivienda   | Estas variables podrian llegar a tener alguna relevancia pero debido al numero de caracteristicas tan grande que engloba el problema es mejor dejar las variables que muestran un omportamiento financiero o que me permitan crear un perfil claro de la persona (para clusterizacion), como por ejemplo genero, edad, etc.                    |
 | `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
 | `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante si ya se considera el móvil.   |
+
+
+### Pre-preprocesamiento de la data
+Antes de realizar la limpieza del data set es necesario verificar que la data este estructurada y entendible para el modelo ya que por ejemplo el modelo no entiende que significa la M y la F en la columna genero, es necesario cambiarlas a valores numericos o booleanos, voy a llamar a esta etapa el pre-preprocesamiento ya que es el paso anterior a realizar la limpieza de la data.
+
+En esta etapa es necesario:
+* Cambiar las variables categoricas por valores numericos donde cada numero representa una categoria, por ejemplo tal y como mencione anteriormente en la categoria genero se reemplaza M por 0 y F por 1
+  
+* Cambiar las variables numericas de montos y flujos a variables logaritmicas, esto debido a que las transformaciones logarítmicas pueden ayudar a corregir la asimetría de variables y mejorar la linealidad en modelos estadísticos.
+  
+* Cambiar las unidades de medida en variables que no son comprensibles, por ejemplo en las columnas DAYS_BIRTH o DAYS_EMPLOYED estan medidas en dias negativos por lo que es mucho mas practico pasarlo a meses (se adjunta imagen de como se manejan los datos en estas variables).
+  ![image](https://github.com/user-attachments/assets/5011f4df-fba4-4b3c-9849-3d1708360e92)
+
+* Agrupar las categorias en numericas o categoricas para extraer los estadisticos relevantes para un analisis posterior. Por ejemplo en las variables numericas se puede calcular media, maximo, minimo y desviacion estandar, por otro lado en las variables categoricas  lo mas relevante ess conocer la moda y el numero de valores unicos que tiene la categoria
+
+### Preprocesamiento de la data
+
+Despues de realizar un entendimiento profundo de la data y estructurarla de una manera que pueda manipularla facilmente, ya que se debe eliminar el ruido de los datos para que el modelo no sufra de overfitting, es decir que el modelo considere como validado, solo los datos que se han usado para entrenar el modelo, sin reconocer ningún otro dato que sea un poco diferente a la base de datos inicial [https://protecciondatos-lopd.com/empresas/overfitting/#Que_es_el_overfitting_en_el_aprendizaje_automatico]. 
+
+Para limpiar la data se procede a:
+* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, para este caso particular he obtado por no eliminar los valores faltantes sino a suministrar la ausencia del valor como un dato al modelo (esto se conoce como Missing Value Indicators). Esto con el fin de que la ausencia de valores se vuelva una informacion relevante para el modelo.
+Por ejemplo, si los clientes con ingresos faltantes tienden a incumplir, el simple hecho de no declarar el ingreso se vuelve información sumamente relevante.
+
+* Reestructurar variables para captar alguna dependencia temporal: Despues de revisar en la literatura se encuentra que variables como número de rechazos previos, historial de solicitudes y frecuencia de aceptación son claves para desarrollar un analisis completo. Con esto en mente se busca reinterpretar la columna "NAME_CONTRACT_STATUS" para tener una idea del numero de rechazos y aprobaciones en los ultimos X intentos.
+
+* Reducir caracteristicas: Una tecnica comun en el preprocesamiento de datos es la reduccion de caracteristicas, esta me dice que si tengo 2 vaiables que tienen una correlacion fuerte (si mi correlacion es igual a 1 entonces son directamente proporcionales y si es -1 son inversamente proporcionales) entonces es redundante tenerlas y puede llegar a dificultar la deteccion de un patron ya que lo que me dice una variable se puede interpretar de la otra. Con esto en mente se procede a calcular la correlacion entre las variables y a eliminar las que estan fuertemente correlacionadas entre si.
+  
+* Deteccion y manejo de valores atipicos: Se debe determinar los valores que se salen del comportamiento normal de la variable, para ello se procedera a ver los valores que son superiores al bigote superior (el bigote superior se calcula como el cuartil 3 + 1.5 * el rango intercuartilico, el rango intercuatilico es la diferencia entre el cuartil 3 y el cuartil 1), y el bigote inferior se calcula como Q1-1.5 * el rango intercuartilico.Si los valores atipicos representan una gran parte de la poblacion entonces la muestra no tiene una comportamiento normal, para esto se determina si los valores atipicos son menores al 7% (este valor no esta respaldado en la literatura, es una asuncion propia) y en caso de que sea menores al 7% se pueden eliminar sin alterar significativamente el resultado.
+
+* Extaer variable objetivo: Se extrae la variable objetivo y se almacena aparte en una matriz Y que contiene el ID del consumidor y si fue aceptado o rechazado (0 o 1)
+
+* *Columnas que pueden resumirse:* : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos. Ademas puedo crear porcentajes con respecto a un total para resumir, por ejemplo "AMT_CREDIT", "AMT_ANNUITY" y "AMT_GOODS_PRICE" muestran como estan segmentados los ingresos pero puedo dividirlos entre el numero de ingresos totales "AMT_INCOME_TOTAL", obtener un porcentaje mas sencillo de ver su cambio y puedo eliminar la columna "AMT_INCOME_TOTAL", ademas podria sacar otra columna como el ingreso por hogar al dividir los ingresos que tiene una persona por el numero de personas que viven en su hogar "CNT_FAM_MEMBERS".
+  
+* Por ultimo se combina temporalmente Train y Test en un solo dataframe para realizar el preprocesamiento de manera uniforme
+
+
+
 
 
 
