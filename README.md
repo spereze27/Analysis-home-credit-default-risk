@@ -46,6 +46,14 @@ De este analisis obtenemos que:
 
 * *Columnas que pueden resumirse:* : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos
 
+### Pre-preprocesamiento de la data
+Antes de realizar la limpieza del data set es necesario verificar que la data este estructurada y entendible para el modelo ya que por ejemplo el modelo no entiende que significa la M y la F en la columna genero, es necesario cambiarlas a valores numericos o booleanos, voy a llamar a esta etapa el pre-preprocesamiento ya que es el paso anterior a realizar la limpieza de la data.
+
+En esta etapa es necesario:
+* Cambiar las variables categoricas por valores numericos donde cada numero representa una categoria, por ejemplo tal y como mencione anteriormente en la categoria genero se reemplaza M por 0 y F por 1
+* Cambiar las variables numericas de montos y flujos a variables logaritmicas, esto debido a que las transformaciones logarítmicas pueden ayudar a corregir la asimetría de variables y mejorar la linealidad en modelos estadísticos.
+* Cambiar las unidades de medida en variables que no son comprensibles, por ejemplo en las columnas DAYS_BIRTH o DAYS_EMPLOYED estan medidas en dias negativos por lo que es mucho mas practico pasarlo a meses
+* Agrupar las categorias en numericas o categoricas para extraer los estadisticos relevantes para un analisis posterior. Por ejemplo en las variables numericas se puede calcular media, maximo, minimo y desviacion estandar, por otro lado en las variables categoricas  lo mas relevante ess conocer la moda y el numero de valores unicos que tiene la categoria
 ### Preprocesamiento de la data
 
 Despues de realizar un entendimiento profundo de la data y que me quiere decir cada columna de cada tabla, se debe eliminar el ruido de los datos para que el modelo no sufra de overfitting, es decir que el modelo considere como validado, solo los datos que se han usado para entrenar el modelo, sin reconocer ningún otro dato que sea un poco diferente a la base de datos inicial [https://protecciondatos-lopd.com/empresas/overfitting/#Que_es_el_overfitting_en_el_aprendizaje_automatico]. 
