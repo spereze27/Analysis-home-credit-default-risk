@@ -9,17 +9,9 @@ Se cargaron los archivos principales del dataset Home Credit Default Risk, distr
 
 * application_train.csv: Información general del cliente y la variable objetivo (TARGET).
 
-* bureau.csv y bureau_balance.csv: Historial crediticio del cliente con otras entidades.
-
 * previous_application.csv: Detalles sobre solicitudes de crédito anteriores.
 
-* POS_CASH_balance.csv: Comportamiento de crédito en punto de venta.
-
 * installments_payments.csv: Historial de pagos de cuotas.
-
-* credit_card_balance.csv: Actividad de tarjetas de crédito.
-
-* HomeCredit_columns_description.csv: Diccionario con la descripción de cada variable.
   
 ### Analisis preliminar (entendimiento de los datos)
 
@@ -67,9 +59,7 @@ Por ejemplo, si los clientes con ingresos faltantes tienden a incumplir, el simp
 
 * Reducir caracteristicas: Una tecnica comun en el preprocesamiento de datos es la reduccion de caracteristicas, esta me dice que si tengo 2 vaiables que tienen una correlacion fuerte (si mi correlacion es igual a 1 entonces son directamente proporcionales y si es -1 son inversamente proporcionales) entonces es redundante tenerlas y puede llegar a dificultar la deteccion de un patron ya que lo que me dice una variable se puede interpretar de la otra. Con esto en mente se procede a calcular la correlacion entre las variables y a eliminar las que estan fuertemente correlacionadas entre si.
   
-* Deteccion y manejo de valores atipicos: Se debe determinar los valores que se salen del comportamiento normal de la variable, para ello se procedera a ver los valores que son superiores al bigote superior (el bigote superior se calcula como el cuartil 3 + 1.5 * el rango intercuartilico, el rango intercuatilico es la diferencia entre el cuartil 3 y el cuartil 1), y el bigote inferior se calcula como Q1-1.5 * el rango intercuartilico.
-
-Si los valores atipicos representan una gran parte de la poblacion entonces la muestra no tiene una comportamiento normal, para esto se determina si los valores atipicos son menores al 7% (este valor no esta respaldado en la literatura, es una asuncion propia) y en caso de que sea menores al 7% se pueden eliminar sin alterar significativamente el resultado
+* Deteccion y manejo de valores atipicos: Se debe determinar los valores que se salen del comportamiento normal de la variable, para ello se procedera a ver los valores que son superiores al bigote superior (el bigote superior se calcula como el cuartil 3 + 1.5 * el rango intercuartilico, el rango intercuatilico es la diferencia entre el cuartil 3 y el cuartil 1), y el bigote inferior se calcula como Q1-1.5 * el rango intercuartilico.Si los valores atipicos representan una gran parte de la poblacion entonces la muestra no tiene una comportamiento normal, para esto se determina si los valores atipicos son menores al 7% (este valor no esta respaldado en la literatura, es una asuncion propia) y en caso de que sea menores al 7% se pueden eliminar sin alterar significativamente el resultado
 
 
 
