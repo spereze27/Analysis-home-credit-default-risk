@@ -32,11 +32,11 @@ De este analisis obtenemos que:
 | `DAYS_REGISTRATION`           | Fecha de registro del cliente, no es directamente útil para perfilar comportamiento crediticio.           |
 | `DAYS_ID_PUBLISH`             | Fecha de emisión del documento de identidad. Poco valor informativo teniento datos como fecha de nacimiento.                         |
 | `WEEKDAY_APPR_PROCESS_START`  | Día de la semana en que se inició la solicitud. No tiene relación con el perfil de riesgo del cliente.     |
-| `HOUR_APPR_PROCESS_START`     | Hora de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
+| `HOUR_APPR_PROCESS_START` `DAY_APPR_PROCESS_START`    | Hora y día de inicio del proceso. No se considera relevante para clusterización o predicción.                    |
+| `APARTMENTS_MEDI` y variables referentes a estadisticos de vivienda   | Estas variables podrian llegar a tener alguna relevancia pero debido al numero de caracteristicas tan grande que engloba el problema es mejor dejar las variables que muestran un omportamiento financiero o que me permitan crear un perfil claro de la persona (para clusterizacion), como por ejemplo genero, edad, etc.                    |
 | `FLAG_PHONE`                  | Indica si el cliente proporcionó un número de teléfono fijo. Redundante si ya se considera el móvil.       |
 | `FLAG_EMP_PHONE`              | Indica si proporcionó teléfono del trabajo. Redundante si ya se considera el móvil.   |
 
-* *Columnas que pueden resumirse:* : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos
 
 ### Pre-preprocesamiento de la data
 Antes de realizar la limpieza del data set es necesario verificar que la data este estructurada y entendible para el modelo ya que por ejemplo el modelo no entiende que significa la M y la F en la columna genero, es necesario cambiarlas a valores numericos o booleanos, voy a llamar a esta etapa el pre-preprocesamiento ya que es el paso anterior a realizar la limpieza de la data.
@@ -65,7 +65,11 @@ Por ejemplo, si los clientes con ingresos faltantes tienden a incumplir, el simp
   
 * Deteccion y manejo de valores atipicos: Se debe determinar los valores que se salen del comportamiento normal de la variable, para ello se procedera a ver los valores que son superiores al bigote superior (el bigote superior se calcula como el cuartil 3 + 1.5 * el rango intercuartilico, el rango intercuatilico es la diferencia entre el cuartil 3 y el cuartil 1), y el bigote inferior se calcula como Q1-1.5 * el rango intercuartilico.Si los valores atipicos representan una gran parte de la poblacion entonces la muestra no tiene una comportamiento normal, para esto se determina si los valores atipicos son menores al 7% (este valor no esta respaldado en la literatura, es una asuncion propia) y en caso de que sea menores al 7% se pueden eliminar sin alterar significativamente el resultado.
 
-* 
+* Extaer variable objetivo: Se extrae la variable objetivo y se almacena aparte en una matriz Y que contiene el ID del consumidor y si fue aceptado o rechazado (0 o 1)
+
+* *Columnas que pueden resumirse:* : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos. Ademas puedo crear porcentajes con respecto a un total para resumir, por ejemplo "AMT_CREDIT", "AMT_ANNUITY" y "AMT_GOODS_PRICE" muestran como estan segmentados los ingresos pero puedo dividirlos entre el numero de ingresos totales "AMT_INCOME_TOTAL", obtener un porcentaje mas sencillo de ver su cambio y puedo eliminar la columna "AMT_INCOME_TOTAL", ademas podria sacar otra columna como el ingreso por hogar al dividir los ingresos que tiene una persona por el numero de personas que viven en su hogar "CNT_FAM_MEMBERS".
+  
+* Por ultimo se combina temporalmente Train y Test en un solo dataframe para realizar el preprocesamiento de manera uniforme
 
 
 
