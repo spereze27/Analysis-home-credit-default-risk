@@ -6,3 +6,5 @@ seaborn
 scikit-learn
 scipy 
 tqdm
+seaborn
+pyarrow
