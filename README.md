@@ -49,17 +49,26 @@ En esta etapa es necesario:
 * Cambiar las unidades de medida en variables que no son comprensibles, por ejemplo en las columnas DAYS_BIRTH o DAYS_EMPLOYED estan medidas en dias negativos por lo que es mucho mas practico pasarlo a meses (se adjunta imagen de como se manejan los datos en estas variables).
   ![image](https://github.com/user-attachments/assets/5011f4df-fba4-4b3c-9849-3d1708360e92)
 
-* Agrupar las categorias en numericas o categoricas para extraer los estadisticos relevantes para un analisis posterior. Por ejemplo en las variables numericas se puede calcular media, maximo, minimo y desviacion estandar, por otro lado en las variables categoricas  lo mas relevante ess conocer la moda y el numero de valores unicos que tiene la categoria
-
 ### Preprocesamiento de la data
 
 Despues de realizar un entendimiento profundo de la data y estructurarla de una manera que pueda manipularla facilmente, ya que se debe eliminar el ruido de los datos para que el modelo no sufra de overfitting, es decir que el modelo considere como validado, solo los datos que se han usado para entrenar el modelo, sin reconocer ningún otro dato que sea un poco diferente a la base de datos inicial [https://protecciondatos-lopd.com/empresas/overfitting/#Que_es_el_overfitting_en_el_aprendizaje_automatico]. 
+
+
+Para limpiar la data se procede a realizar los siguientes pasos para las tres tablas train, previous_application e installment:
+
+* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrata la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna,Con esto obtenemos que las columnas a eliminar de la tabla principal por tener muy poca informacion son ['OWN_CAR_AGE', 'EXT_SOURCE_1', 'APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BUILD_AVG', 'COMMONAREA_AVG', 'ELEVATORS_AVG', 'ENTRANCES_AVG', 'FLOORSMIN_AVG', 'LANDAREA_AVG', 'LIVINGAPARTMENTS_AVG','NONLIVINGAPARTMENTS_AVG', 'NONLIVINGAREA_AVG', 'YEARS_BUILD_MODE', 'FONDKAPREMONT_MODE', 'WALLSMATERIAL_MODE']
+
+![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
+
+  para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes 
+
 
 Para limpiar la data se procede a:
 * Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrata la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna
 ![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
 Con esto obtenemos que las columnas a eliminar por tener muy poca informacion son
 ['OWN_CAR_AGE', 'EXT_SOURCE_1', 'APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BUILD_AVG', 'COMMONAREA_AVG', 'ELEVATORS_AVG', 'ENTRANCES_AVG', 'FLOORSMIN_AVG', 'LANDAREA_AVG', 'LIVINGAPARTMENTS_AVG', 'NONLIVINGAPARTMENTS_AVG', 'NONLIVINGAREA_AVG', 'YEARS_BUILD_MODE', 'FONDKAPREMONT_MODE', 'WALLSMATERIAL_MODE']
+
 
 
 * Reestructurar variables para captar alguna dependencia temporal: Despues de revisar en la literatura se encuentra que variables como número de rechazos previos, historial de solicitudes y frecuencia de aceptación son claves para desarrollar un analisis completo. Con esto en mente se busca reinterpretar la columna "NAME_CONTRACT_STATUS" para tener una idea del numero de rechazos y aprobaciones en los ultimos X intentos.
