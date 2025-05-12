@@ -2,6 +2,7 @@
 A continuacion se presenta el desarrollo de un modelo de predicción de capacidad de pago de creditos de los clientes basado en diferentes datos suministrados por Home Credit en Kaggle.
 Para este ejercicio se trabajara sobre un subconjunto de datos que contiene los datos de la tabla train/test (tabla que contiene toda la informacion general), installments_payments que contiene informacion del comportamiento financiero (historial de pagos) y previous_application ya que refleja antecedentes enfocados en esta misma institución financiera (no como beruau que se enfoca en otras entidades, esto puede que el modelo encuentre sumamente complicado detectar un patron), es importate destacar que las razones de acptacion o rechazo pueden variar entre instituciones financieras.
 
+### Polars como marco de datos seleccionado
 Para este ejercicio en particular debido al volumen de datos suministrado se opta por usar polars en lugar de pandas debido a que optimiza de manera significativa el uso de memoria y los tiempos de computo, por lo que las funciones creadas usan sintaxis declarativa (por ejemplo si bien en pandas puedo acceder a una columna con df['columna_buscada'] con polars seria df.col('columna_buscada'))
 
 ### Carga Inicial de Datos
