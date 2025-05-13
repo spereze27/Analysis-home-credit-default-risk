@@ -119,6 +119,30 @@ Gracias al EDA sabemos que el tiempo que lleva empleado y el ingreso neto afecta
 
 de esta forma se seleccionan las variables ["CNT_CHILDREN", "REGION_POPULATION_RELATIVE", "AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "CNT_PAYMENT", "AMT_APPLICATION", "AMT_GOODS_PRICE_right", "INGRESO_POR_PERSONA", "CONVERTIDO_DAYS_EMPLOYED", "CONVERTIDO_DAYS_BIRTH"]
 
+* Ya hemos preprocesado la data pero para el algoritmo k-means es necesrio realizar un paso adicional y es el escalado de las variables, ya que K-Means es sensible a la escala de las variables. Para este caso se va utilizar StandardScaler de scikit-learn para normalizar los datos.
+![image](https://github.com/user-attachments/assets/b2d5448c-f130-47eb-9cc1-e66b2329d1cd)
+
+* Ahora el algoritmo K-means utiliza un numero K de categorias o clusters para etiquetar el comportamiento de la data pero es mi decision cuantos clusters va a tener, voy a utilizar el metodo del codo para determinar el numero optimo de clusters que deberia tener K-means, el metodo del codo se basa en determinar de manera grafica la ganancia que obtengo con forme aumento el numero de clusters (cuando la ganancia tiende a dejar de ser significativa se genera un punto de inflexion en la grafica o un "codo"), el numero donde se genera el codo es el numero optimo de clusters.
+  ![image](https://github.com/user-attachments/assets/b1fe6650-a69c-4237-8a1d-1b75a8d8dc21)
+  El grafico nos muestra 3 posibles puntos de inflexion que son el 2, el 3 y el 4. Por conveniencia voy a escoger 3 clusters debido a que 2 puede que no recoja toda la informacion requerida y con 4 debo consumir una mayor cantidad de recursos computacionales.
+
+* Para un tema de visualizacion se va a reducir la data a dos componentes principales (es indiferente cuales sean, unicamente es con motivos graficos) y a desglozar por clusters, en la grafica podemos visualizar que no se estan teniendo confuciones y cada categoria engloba una parte de la poblacion que no se confunde con otra.
+  ![image](https://github.com/user-attachments/assets/df304023-d3df-49b1-b483-1338d4efd4c9)
+*Ya tenemos la clusterizacion de la poblacion pero el modelo K-means separa la poblacion en grupos pero no me dice en ningun momento cuales son los posibles grupos, para ello es necesario desglozar los estadisticos de cada columna segmentado por cluster, se crea un archivo csv que contiene los estadisticos de cada cluster y con este se construye un perfil de cada persona. Del archivo se va a buscar el cuartil 3 que englobe la mayoria de datos que tiene cada cluster, se adjunta imagen de los datos recogidos de variables mas relevantes (presentan cambios notables entre clusters).
+
+![image](https://github.com/user-attachments/assets/9fead4f8-2704-45e8-b1ab-481c2e5459ad)
+
+Con esta informacion describo los perfiles de la siguiente manera:
+
+### Análisis de Clusters
+
+| Cluster | Descripción de la persona |
+|---------|----------------------------|
+| 0       | Personas mayores que cuentan con un buen ingreso para mantener a todos los miembros de su familia, tienden a pedir créditos de monto medio a largo plazo y tienen un trabajo estable. |
+| 1       | Persona adulta con un muy buen ingreso para mantener a todos en su casa, tiene estabilidad laboral y tiende a solicitar montos altos a corto plazo. |
+| 2       | Persona joven con ingresos deficientes para mantener a todos en su casa, no tiene mucha estabilidad laboral y tiende a buscar montos bajos a mediano plazo. |
+
+
 
 
 
