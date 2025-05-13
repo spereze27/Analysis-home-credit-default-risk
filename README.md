@@ -137,12 +137,60 @@ Con esta informacion describo los perfiles de la siguiente manera:
 ### Análisis de Clusters
 
 | Cluster | Descripción de la persona |
-|---------|----------------------------|
+|---------|---------------------------|
 | 0       | Personas mayores que cuentan con un buen ingreso para mantener a todos los miembros de su familia, tienden a pedir créditos de monto medio a largo plazo y tienen un trabajo estable. |
 | 1       | Persona adulta con un muy buen ingreso para mantener a todos en su casa, tiene estabilidad laboral y tiende a solicitar montos altos a corto plazo. |
 | 2       | Persona joven con ingresos deficientes para mantener a todos en su casa, no tiene mucha estabilidad laboral y tiende a buscar montos bajos a mediano plazo. |
 
+### Desarrollo del modelo de prediccion
 
+Se procede a entrenar un algoritmo con la data preprocesada para que prediga con exita si una persona incurriria en mora o no, para este caso voy a desarrollar el analisis utilizando un random forest (en caso de que no conozcas un random forest es un agrupamiento de arboles de decision que miran un subconjunto de los datos y cada arbol hace una predicción, al final se vota por la clase mas seleccionada).
+
+Primero se exporta la data limpia de entrenamiento, prueba y la variable objetivo (recordemos que estan en files/output/ bajo el nombre de train.csv,test.csv y target.csv respectivamente), se deben extraer unicamente los valores target sin incluir el ID del cliente dado que el modelo espera una variable con la forma (n,) siendo n el numero de registros a evaluar.
+
+Despues de separada la data se procede a entrenar el modelo con unos hiperparametros iniciales que van a mutar despues de cada analisis para poder encontrar los mejores hiperparametros, los hiperparametros relevantes para el random forest son:
+
+* n_estimators: Es el numero de arboles de decision que se encuentran adentro del bosque
+* max_depth: Es la profundidad que puede tener cada arbol antes de realizar una predicción
+* random_state: No afecta al desempño del modelo, unicamente es un iniciador.
+
+Realice varios entrenamientos variando varios hiper parametros empezando desde (n_estimators=100, max_depth=10)  hasta (n_estimators=400, max_depth=50) evaluando el modelo en cada resultado viendo como variaban sus metricas.
+
+Las metricas que utilice para evaluar el modelo son:
+
+* AUC (Area Under Curve): representa la capacidad del modelo para distinguir correctamente entre clases. Un valor alto de AUC indica que el modelo tiene buena capacidad para identificar correctamente los valores reales y evitar falsos positivos. Un valor cercano a 1 es la mejor metrica y un valor cercano a 0,5 indica que el algoritmo es tan bueno como el azar.
+  
+  ![image](https://github.com/user-attachments/assets/8da3bb48-5c85-4c70-9f79-f5fe2b15c7ab)
+
+
+* Matriz de confusion: muestra cómo se comporta el modelo al clasificar cada clase. Por ejemplo, de todos los casos en los que el valor real era 0, cuántos fueron correctamente clasificados como 0, y de todos los casos en los que el valor real era 1, cuántos fueron correctamente clasificados como 1.
+  
+|               | Predicho: 0 | Predicho: 1 |
+|---------------|-------------|-------------|
+| Real: 0       | 6922        | 0           |
+| Real: 1       | 589         | 0           |
+
+* Variables de peso: Tambien se muestran las variables que tienen mas peso para el modelo a la hora de determinar si una persona entraria en mora o no.
+  
+  ![image](https://github.com/user-attachments/assets/58fae107-4672-4b5a-9891-e710d532f61f)
+
+
+### Analisis
+
+Como se puede apreciar el desempeño del modelo es sumamente pobre ya que su AUC del 0.51 indica que es igual que el azar y la matriz de confusion nos verifica que cataloga a todos como 0 (no entra en mora).
+Como habia mencionado antes realice varios entrenamientos modificando los hiperparametros buscando mejorar los resultados pero el comportamiento no mejoraba, el modelo siempre catalogaba a todos como 0. Ahora por que esta pasando eso, estos resultados tienen mucha logica considerando la distribución de los datos en el dataset (volvamos al EDA).
+
+![image](https://github.com/user-attachments/assets/9807c970-94eb-4633-ac01-3594c5ce20c0)
+
+Se puede observar que el 92% de los datos corresponden a personas que no incurren en mora (clase 0). Esto significa que el conjunto de datos está fuertemente desbalanceado, ya que hay una gran diferencia entre la cantidad de ejemplos de la clase 0 (sin mora) y la clase 1 (con mora).
+
+Este desbalance puede hacer que un modelo de clasificación se incline a predecir casi siempre la clase mayoritaria (sin mora), ya que con eso obtendría una alta precisión general, aunque fallaría al identificar correctamente a las personas que sí caen en mora, que es justamente el caso más crítico que se desea detectar.
+
+### Conclusion
+
+En este caso, el modelo de clasificación no resulta útil, ya que está fuertemente sesgado por el desbalance en la distribución de la variable objetivo. La mayoría de los registros pertenecen a clientes que no incurren en mora, lo que provoca que el modelo aprenda a predecir casi exclusivamente esa clase, sin aportar valor en la identificación de los casos relevantes (clientes en mora). Por esta razón, el modelo supervisado no es adecuado para ser implementado en su estado actual.
+
+En cambio, el enfoque no supervisado demostró ser más valioso. Al no depender de la variable objetivo, permitió identificar tres perfiles distintos de clientes basados en sus características. Esta segmentación puede ser utilizada por Home Credit para diseñar portafolios de productos personalizados, adaptados a las necesidades e intereses de cada grupo, mejorando así las oportunidades de conversión y fidelización.
 
 
 
