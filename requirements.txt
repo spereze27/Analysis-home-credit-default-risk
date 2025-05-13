@@ -8,3 +8,5 @@ scipy
 tqdm
 seaborn
 pyarrow
+pandas
+tqdm
