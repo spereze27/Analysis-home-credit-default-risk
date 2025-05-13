@@ -95,6 +95,24 @@ Se muestra la comparacion del grafico de calor que compara la correlacion de tod
 
 # Desarrollo del EDA
 
+Se desarrolla una descripcion grafica de variables de interes para poder entender de manera facil y sencilla como esta compuesta la data, ademas se busca responder a preguntas basicas del comportamiento del dataset.
+
+En el archivo EDA.ipynb esta todo descrito pero de las conclusiones mas interesantes son:
+* El dataset esta compuesto principalmente por mujeres lo cual hace que se pueda llegar a pensar que las mujeres incurren mas en mora pero verdaderamente esto es una ilusion generado por su peso en la poblacion.
+  ![image](https://github.com/user-attachments/assets/e19bed7d-6385-4f89-b81b-2c3c0c811c39)
+  ![image](https://github.com/user-attachments/assets/8e6e955f-adca-43ba-a752-f8b496bb41de)
+* Increiblemente la gente con hijos tiende a pagar sus deudas de manera mas responsable que la gente sin hijos, esto puede deberse a que los padres tienen una mayor presion para no aumentar sus deudas debido a mora.
+  ![image](https://github.com/user-attachments/assets/2db52429-a51f-4be2-94e5-df4924557c7d)
+* Las personas que no incurren en mora tienen una distribucion mucho mas uniforme que quienes si incurren en mora, esto indica que las personas que no incurren en mora pueden tener cualquier tipo de salario pero hay algunos salarios especificos donde se acumulan las personas que incurren en mora, por ejemplo es muy notable que las personas que mas probabilidad tienen de incurrir en mora son las persiben un ingreso neto entre 11.5 y 12 puntos en la escala logaritmica.
+  ![image](https://github.com/user-attachments/assets/f5cba5db-6d66-48fb-9c2d-61e23ef491f8)
+* Podemos apreciar que tiene una distribucion regular y facil de entender, es claro que mientras menos tiempo lleve una persona trabajando se tiene una mayor concentracion de personas que incurren en mora, esto indica que tener una persona que lleve poco tiempo trabajando es una señal de alerta y un indicativo de que puede incurrir en mora.
+![image](https://github.com/user-attachments/assets/9345cd38-d70f-49c3-b635-1e74d8f50598)
+
+
+
+
+
+
 
 
 
