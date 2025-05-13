@@ -2,10 +2,14 @@
 A continuacion se presenta el desarrollo de un modelo de predicción de capacidad de pago de creditos de los clientes basado en diferentes datos suministrados por Home Credit en Kaggle.
 Para este ejercicio se trabajara sobre un subconjunto de datos que contiene los datos de la tabla train/test (tabla que contiene toda la informacion general), installments_payments que contiene informacion del comportamiento financiero (historial de pagos) y previous_application ya que refleja antecedentes enfocados en esta misma institución financiera (no como beruau que se enfoca en otras entidades, esto puede que el modelo encuentre sumamente complicado detectar un patron), es importate destacar que las razones de acptacion o rechazo pueden variar entre instituciones financieras.
 
+### Polars como marco de datos seleccionado
+Para este ejercicio en particular debido al volumen de datos suministrado se opta por usar polars en lugar de pandas debido a que optimiza de manera significativa el uso de memoria y los tiempos de computo, por lo que las funciones creadas usan sintaxis declarativa (por ejemplo si bien en pandas puedo acceder a una columna con df['columna_buscada'] con polars seria df.col('columna_buscada'))
+
 ### Carga Inicial de Datos
 
-El primer paso para realizar la creacion y evaluacion de modelos analiticos utiles para este ejercicio es cargar y entender los datos que nos suministran.
-Se cargaron los archivos principales del dataset Home Credit Default Risk, distribuidos en varias tablas relacionadas. Las tablas y su descripcion resumida son:
+El primer paso para realizar la creacion y evaluacion de un modelo analitico es cargar y entender los datos que nos suministran.
+
+Se cargaron los archivos principales del dataset Home Credit Default Risk, distribuidos en varias tablas relacionadas. Las tablas utilizadas y su descripcion resumida son:
 
 * application_train.csv: Información general del cliente y la variable objetivo (TARGET).
 
@@ -15,7 +19,7 @@ Se cargaron los archivos principales del dataset Home Credit Default Risk, distr
   
 ### Analisis preliminar (entendimiento de los datos)
 
-La tabla HomeCredit_columns_description.csv es la ms importante en este analisis preliminar ya que nos permite discriminar el tipo de dato que es cada variable para poder catalogarlas en numericas, fechas, valores binarios o categorias. Tambien permite identificar columnas que no suministran información significativa o que son redundantes.
+La tabla HomeCredit_columns_description.csv es la mas importante en este analisis preliminar ya que nos permite discriminar el tipo de dato que es cada variable para poder catalogarlas en numericas, fechas, valores binarios o categorias. Tambien permite identificar columnas que no suministran información significativa o que son redundantes.
 
 De este analisis obtenemos que:
 
@@ -39,12 +43,13 @@ De este analisis obtenemos que:
 
 
 ### Pre-preprocesamiento de la data
+
 Antes de realizar la limpieza del data set es necesario verificar que la data este estructurada y entendible para el modelo ya que por ejemplo el modelo no entiende que significa la M y la F en la columna genero, es necesario cambiarlas a valores numericos o booleanos, voy a llamar a esta etapa el pre-preprocesamiento ya que es el paso anterior a realizar la limpieza de la data.
 
 En esta etapa es necesario:
 * Cambiar las variables categoricas por valores numericos donde cada numero representa una categoria, por ejemplo tal y como mencione anteriormente en la categoria genero se reemplaza M por 0 y F por 1
   
-* Cambiar las variables numericas de montos y flujos a variables logaritmicas, esto debido a que las transformaciones logarítmicas pueden ayudar a corregir la asimetría de variables y mejorar la linealidad en modelos estadísticos.
+* Cambiar las variables numericas de montos y flujos a una escala logaritmica, esto debido a que las transformaciones logarítmicas pueden ayudar a corregir la asimetría de variables y mejorar la linealidad en modelos estadísticos.
   
 * Cambiar las unidades de medida en variables que no son comprensibles, por ejemplo en las columnas DAYS_BIRTH o DAYS_EMPLOYED estan medidas en dias negativos por lo que es mucho mas practico pasarlo a meses (se adjunta imagen de como se manejan los datos en estas variables).
   ![image](https://github.com/user-attachments/assets/5011f4df-fba4-4b3c-9849-3d1708360e92)
@@ -54,22 +59,11 @@ En esta etapa es necesario:
 Despues de realizar un entendimiento profundo de la data y estructurarla de una manera que pueda manipularla facilmente, ya que se debe eliminar el ruido de los datos para que el modelo no sufra de overfitting, es decir que el modelo considere como validado, solo los datos que se han usado para entrenar el modelo, sin reconocer ningún otro dato que sea un poco diferente a la base de datos inicial [https://protecciondatos-lopd.com/empresas/overfitting/#Que_es_el_overfitting_en_el_aprendizaje_automatico]. 
 
 
-Para limpiar la data se procede a realizar los siguientes pasos para las tres tablas train, previous_application e installment:
+Para limpiar la data se procede a realizar los siguientes pasos para las tres tablas empleadas en el desarrollo de este trabajo (train, previous_application e installment):
 
-* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrata la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna,Con esto obtenemos que las columnas a eliminar de la tabla principal por tener muy poca informacion son ['OWN_CAR_AGE', 'EXT_SOURCE_1', 'APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BUILD_AVG', 'COMMONAREA_AVG', 'ELEVATORS_AVG', 'ENTRANCES_AVG', 'FLOORSMIN_AVG', 'LANDAREA_AVG', 'LIVINGAPARTMENTS_AVG','NONLIVINGAPARTMENTS_AVG', 'NONLIVINGAREA_AVG', 'YEARS_BUILD_MODE', 'FONDKAPREMONT_MODE', 'WALLSMATERIAL_MODE']
+* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrara la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos (Q3) tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna, para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes 
 
 ![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
-
-  para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes 
-
-
-Para limpiar la data se procede a:
-* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrata la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna
-![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
-Con esto obtenemos que las columnas a eliminar por tener muy poca informacion son
-['OWN_CAR_AGE', 'EXT_SOURCE_1', 'APARTMENTS_AVG', 'BASEMENTAREA_AVG', 'YEARS_BUILD_AVG', 'COMMONAREA_AVG', 'ELEVATORS_AVG', 'ENTRANCES_AVG', 'FLOORSMIN_AVG', 'LANDAREA_AVG', 'LIVINGAPARTMENTS_AVG', 'NONLIVINGAPARTMENTS_AVG', 'NONLIVINGAREA_AVG', 'YEARS_BUILD_MODE', 'FONDKAPREMONT_MODE', 'WALLSMATERIAL_MODE']
-
-
 
 * Reestructurar variables para captar alguna dependencia temporal: Despues de revisar en la literatura se encuentra que variables como número de rechazos previos, historial de solicitudes y frecuencia de aceptación son claves para desarrollar un analisis completo. Con esto en mente se busca reinterpretar la columna "NAME_CONTRACT_STATUS" para tener una idea del numero de rechazos y aprobaciones en los ultimos X intentos.
 
