@@ -61,9 +61,13 @@ Despues de realizar un entendimiento profundo de la data y estructurarla de una 
 
 Para limpiar la data se procede a realizar los siguientes pasos para las tres tablas empleadas en el desarrollo de este trabajo (train, previous_application e installment):
 
-* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrara la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos (Q3) tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna, para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes 
+* Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrara la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos (Q3) tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna, para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes.
+Para manejar los valores faltantes de las columnas que no se eliminaron, se procede a reemplazar los valores faltantes en las columnas de tipo numerico, para este caso particular voy a proceder a reemplazarlos por la media de la columna.
+Para las variables de tipo categorico no tendria sentido reemplazarlos con algun estadistico dado que es una categoria, por ello se procede a eliminar todos los registros que tienen valores faltantes
 
 ![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
+
+
 
 * Reestructurar variables para captar alguna dependencia temporal: Despues de revisar en la literatura se encuentra que variables como número de rechazos previos, historial de solicitudes y frecuencia de aceptación son claves para desarrollar un analisis completo. Con esto en mente se busca reinterpretar la columna "NAME_CONTRACT_STATUS" para tener una idea del numero de rechazos y aprobaciones en los ultimos X intentos.
 
