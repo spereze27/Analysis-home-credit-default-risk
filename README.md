@@ -137,7 +137,7 @@ Con esta informacion describo los perfiles de la siguiente manera:
 ### Análisis de Clusters
 
 | Cluster | Descripción de la persona |
-|---------|----------------------------|
+|---------|---------------------------|
 | 0       | Personas mayores que cuentan con un buen ingreso para mantener a todos los miembros de su familia, tienden a pedir créditos de monto medio a largo plazo y tienen un trabajo estable. |
 | 1       | Persona adulta con un muy buen ingreso para mantener a todos en su casa, tiene estabilidad laboral y tiende a solicitar montos altos a corto plazo. |
 | 2       | Persona joven con ingresos deficientes para mantener a todos en su casa, no tiene mucha estabilidad laboral y tiende a buscar montos bajos a mediano plazo. |
@@ -159,16 +159,19 @@ Realice varios entrenamientos variando varios hiper parametros empezando desde (
 Las metricas que utilice para evaluar el modelo son:
 
 * AUC (Area Under Curve): representa la capacidad del modelo para distinguir correctamente entre clases. Un valor alto de AUC indica que el modelo tiene buena capacidad para identificar correctamente los valores reales y evitar falsos positivos. Un valor cercano a 1 es la mejor metrica y un valor cercano a 0,5 indica que el algoritmo es tan bueno como el azar.
+  
   ![image](https://github.com/user-attachments/assets/8da3bb48-5c85-4c70-9f79-f5fe2b15c7ab)
 
 
 * Matriz de confusion: muestra cómo se comporta el modelo al clasificar cada clase. Por ejemplo, de todos los casos en los que el valor real era 0, cuántos fueron correctamente clasificados como 0, y de todos los casos en los que el valor real era 1, cuántos fueron correctamente clasificados como 1.
-  |               | Predicho: 0 | Predicho: 1 |
+  
+|               | Predicho: 0 | Predicho: 1 |
 |---------------|-------------|-------------|
 | Real: 0       | 6922        | 0           |
 | Real: 1       | 589         | 0           |
 
 * Variables de peso: Tambien se muestran las variables que tienen mas peso para el modelo a la hora de determinar si una persona entraria en mora o no.
+  
   ![image](https://github.com/user-attachments/assets/58fae107-4672-4b5a-9891-e710d532f61f)
 
 
@@ -176,6 +179,7 @@ Las metricas que utilice para evaluar el modelo son:
 
 Como se puede apreciar el desempeño del modelo es sumamente pobre ya que su AUC del 0.51 indica que es igual que el azar y la matriz de confusion nos verifica que cataloga a todos como 0 (no entra en mora).
 Como habia mencionado antes realice varios entrenamientos modificando los hiperparametros buscando mejorar los resultados pero el comportamiento no mejoraba, el modelo siempre catalogaba a todos como 0. Ahora por que esta pasando eso, estos resultados tienen mucha logica considerando la distribución de los datos en el dataset (volvamos al EDA).
+
 ![image](https://github.com/user-attachments/assets/9807c970-94eb-4633-ac01-3594c5ce20c0)
 
 Se puede observar que el 92% de los datos corresponden a personas que no incurren en mora (clase 0). Esto significa que el conjunto de datos está fuertemente desbalanceado, ya que hay una gran diferencia entre la cantidad de ejemplos de la clase 0 (sin mora) y la clase 1 (con mora).
