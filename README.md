@@ -79,9 +79,6 @@ Para las variables de tipo categorico no tendria sentido reemplazarlos con algun
 ![image](https://github.com/user-attachments/assets/439af6f2-f788-4a21-bb2e-9cec98afc99f)
 
 
-
-* Reestructurar variables para captar alguna dependencia temporal: Despues de revisar en la literatura se encuentra que variables como número de rechazos previos, historial de solicitudes y frecuencia de aceptación son claves para desarrollar un analisis completo. Con esto en mente se busca reinterpretar la columna "NAME_CONTRACT_STATUS" para tener una idea del numero de rechazos y aprobaciones en los ultimos X intentos.
-
 * Reducir caracteristicas: Una tecnica comun en el preprocesamiento de datos es la reduccion de caracteristicas, esta me dice que si tengo 2 vaiables que tienen una correlacion fuerte (si mi correlacion es igual a 1 entonces son directamente proporcionales y si es -1 son inversamente proporcionales) entonces es redundante tenerlas y puede llegar a dificultar la deteccion de un patron ya que lo que me dice una variable se puede interpretar de la otra. Con esto en mente se procede a calcular la correlacion entre las variables y a eliminar las que estan fuertemente correlacionadas entre si.
 Se muestra la comparacion del grafico de calor que compara la correlacion de todas las variables numericas evaluadas en este ejercicio, se puede apreciar que despues de realizar la reduccion a caracteristicas principales se pudo disminuir la concentracion de variables altamente relacionadas
 ![image](https://github.com/user-attachments/assets/f8889885-3b0b-4c31-bb43-9e70b276cfd4)
@@ -91,7 +88,7 @@ Se muestra la comparacion del grafico de calor que compara la correlacion de tod
   
 * Deteccion y manejo de valores atipicos: Se debe determinar los valores que se salen del comportamiento normal de la variable, para ello se procedera a ver los valores que son superiores al bigote superior (el bigote superior se calcula como el cuartil 3 + 1.5 * el rango intercuartilico, el rango intercuatilico es la diferencia entre el cuartil 3 y el cuartil 1), y el bigote inferior se calcula como Q1-1.5 * el rango intercuartilico.Si los valores atipicos representan una gran parte de la poblacion entonces la muestra no tiene una comportamiento normal, para esto se determina si los valores atipicos son menores al 7% (este valor no esta respaldado en la literatura, es una asuncion propia) y en caso de que sea menores al 7% se pueden eliminar sin alterar significativamente el resultado.
 
-* Extaer variable objetivo: Se extrae la variable objetivo y se almacena aparte en una matriz Y que contiene el ID del consumidor y si fue aceptado o rechazado (0 o 1)
+* Extaer variable objetivo: Se extrae la variable objetivo y se almacena aparte en una matriz Y que contiene el ID del consumidor y si no entro en mora o si entro en mora (0 o 1)
 
 * Columnas que pueden resumirse: : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos. Ademas podria sacar otra columna como el ingreso por hogar al dividir los ingresos que tiene una persona por el numero de personas que viven en su hogar "CNT_FAM_MEMBERS" y de esta forma elimino "CNT_FAM_MEMBERS".
   
