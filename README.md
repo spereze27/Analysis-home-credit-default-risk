@@ -47,7 +47,12 @@ De este analisis obtenemos que:
 Antes de realizar la limpieza del data set es necesario verificar que la data este estructurada y entendible para el modelo ya que por ejemplo el modelo no entiende que significa la M y la F en la columna genero, es necesario cambiarlas a valores numericos o booleanos, voy a llamar a esta etapa el pre-preprocesamiento ya que es el paso anterior a realizar la limpieza de la data.
 
 En esta etapa es necesario:
-* Cambiar las variables categoricas por valores numericos donde cada numero representa una categoria, por ejemplo tal y como mencione anteriormente en la categoria genero se reemplaza M por 0 y F por 1
+* Cambiar las variables categoricas por valores numericos donde cada numero representa una categoria, por ejemplo tal y como mencione anteriormente en la categoria genero se reemplaza M por 0 y F por 1.
+  para poder proceder a cambiar los valores de las columnas categoricas por valores numericos, es necesario comprobar que este funcionando de manera adecuada la funcion, se va a analizar los valores unicos para cada columna y despues de realizar el cambio de categorias a valores numericos se volvera a evaluar, debe haber la misma cantidad de valores unicos (se adjunta imagen del cambio que hubo en las variables y que se mantiene el numero de categorias).
+
+  Por ejemplo si una categoria es color y tiene valores rojo, verde o azul entonces tiene 3 valores diferentes, al realizar la funcion se pasara a tener valores 0 (rojo), 1 (verde) o 2 (azul) pero seguira         teniendo 3 valores unicos.
+  ![image](https://github.com/user-attachments/assets/0b08400c-8c9e-491b-871e-36d18af369ed)
+
   
 * Cambiar las variables numericas de montos y flujos a una escala logaritmica, esto debido a que las transformaciones logarítmicas pueden ayudar a corregir la asimetría de variables y mejorar la linealidad en modelos estadísticos.
   
@@ -73,7 +78,8 @@ Para las variables de tipo categorico no tendria sentido reemplazarlos con algun
 
 * Reducir caracteristicas: Una tecnica comun en el preprocesamiento de datos es la reduccion de caracteristicas, esta me dice que si tengo 2 vaiables que tienen una correlacion fuerte (si mi correlacion es igual a 1 entonces son directamente proporcionales y si es -1 son inversamente proporcionales) entonces es redundante tenerlas y puede llegar a dificultar la deteccion de un patron ya que lo que me dice una variable se puede interpretar de la otra. Con esto en mente se procede a calcular la correlacion entre las variables y a eliminar las que estan fuertemente correlacionadas entre si.
 Se muestra la comparacion del grafico de calor que compara la correlacion de todas las variables numericas evaluadas en este ejercicio, se puede apreciar que despues de realizar la reduccion a caracteristicas principales se pudo disminuir la concentracion de variables altamente relacionadas
-![image](https://github.com/user-attachments/assets/2063fdfa-7bff-4166-b611-3418d63c231a)
+![image](https://github.com/user-attachments/assets/f8889885-3b0b-4c31-bb43-9e70b276cfd4)
+
 
 
   
