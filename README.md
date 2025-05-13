@@ -66,6 +66,8 @@ Despues de realizar un entendimiento profundo de la data y estructurarla de una 
 
 Para limpiar la data se procede a realizar los siguientes pasos para las tres tablas empleadas en el desarrollo de este trabajo (train, previous_application e installment):
 
+*Para comenzar se combina temporalmente Train y Test en un solo dataframe para realizar el preprocesamiento de manera uniforme
+
 * Manejo de valores faltantes: Se procede a determinar el porcentaje de valores faltantes en cada columna, se va a realizar el conteo de valores faltantes y se expresara como un porcentaje del total, despues se mostrara la distribucion de valores faltantes en las columnas y en base a esta informacion se procedera a definir el Umbral de imputacion (se anexa informacion de la distribucion de valores faltantes, podemos ver que el 75% de los datos (Q3) tiene menos de 50% de valores faltantes por lo que podriamos tomar el 50% como el Umbral de imputacion), despues en las columnas restantes se reemplazaran los valores faltante por la media de dicha columna, para previous_application se pondra un Umbral del 41% y por otro lado se tiene que en installment no se tienen casi valores faltantes.
 Para manejar los valores faltantes de las columnas que no se eliminaron, se procede a reemplazar los valores faltantes en las columnas de tipo numerico, para este caso particular voy a proceder a reemplazarlos por la media de la columna.
 Para las variables de tipo categorico no tendria sentido reemplazarlos con algun estadistico dado que es una categoria, por ello se procede a eliminar todos los registros que tienen valores faltantes
@@ -89,7 +91,10 @@ Se muestra la comparacion del grafico de calor que compara la correlacion de tod
 
 * Columnas que pueden resumirse: : Hay varios campos que no me dan información significativa de manera individual pero se puede generar un nuevo campo calculado que resuma varias columnas, por ejemplo son 20 columnas que dan informacion sobre si el cliente entrego un documento X, seria mas practico resumir esas 20 columnas en una sola para evaluar cuantos de esos documentos se entregaron con respecto al total de documentos. Ademas podria sacar otra columna como el ingreso por hogar al dividir los ingresos que tiene una persona por el numero de personas que viven en su hogar "CNT_FAM_MEMBERS" y de esta forma elimino "CNT_FAM_MEMBERS".
   
-* Por ultimo se combina temporalmente Train y Test en un solo dataframe para realizar el preprocesamiento de manera uniforme
+* Por ultimo se separa nuevamente el dataset en conjunto de entrenamiento y prueba y se almacena en un archivo aparte.
+
+# Desarrollo del EDA
+
 
 
 
