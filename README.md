@@ -5,6 +5,10 @@ Para este ejercicio se trabajara sobre un subconjunto de datos que contiene los 
 ### Polars como marco de datos seleccionado
 Para este ejercicio en particular debido al volumen de datos suministrado se opta por usar polars en lugar de pandas debido a que optimiza de manera significativa el uso de memoria y los tiempos de computo, por lo que las funciones creadas usan sintaxis declarativa (por ejemplo si bien en pandas puedo acceder a una columna con df['columna_buscada'] con polars seria df.col('columna_buscada'))
 
+### Importante subir los archivos a trabajar a la carpeta files
+Antes es importante que los archivos para el preprocesamiento se carguen en la carpeta files/. 
+Esto por temas de rutas (unicamente esta subido el archivo que describe las columnas por temas de peso de los demas archivos).
+
 ### Carga Inicial de Datos
 
 El primer paso para realizar la creacion y evaluacion de un modelo analitico es cargar y entender los datos que nos suministran.
