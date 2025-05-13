@@ -108,6 +108,16 @@ En el archivo EDA.ipynb esta todo descrito pero de las conclusiones mas interesa
 * Podemos apreciar que tiene una distribucion regular y facil de entender, es claro que mientras menos tiempo lleve una persona trabajando se tiene una mayor concentracion de personas que incurren en mora, esto indica que tener una persona que lleve poco tiempo trabajando es una señal de alerta y un indicativo de que puede incurrir en mora.
 ![image](https://github.com/user-attachments/assets/9345cd38-d70f-49c3-b635-1e74d8f50598)
 
+### Clusterización por K-means
+Para el algoritmo no supervizado voy a optar por usar el algoritmo de k-means donde dividimos la data en k clusters que comparten determinadas caracteristicas, este algoritmo es rapido y escalable sin mencionar que se puede enfocar muy bien al problema, dado que al identificar grupos de clientes con características similares (ej. clientes puntuales vs. morosos frecuentes), se pueden personalizar estrategias comerciales, de riesgo o cobranza.
+
+Se deben seleccionar las variables a utilizar en la clusterizacion de la data, no se deben seleccionar todas las variables debido a que cuando tienes muchas variables en un modelo, especialmente si algunas no son importantes, las diferencias entre las personas se vuelven más difíciles de ver. Imagina que tienes un mapa con muchas calles y caminos, pero muchos de esos caminos no llevan a ningún lugar importante.
+
+Las variables deben abarcar aspectos demográficos, socioeconómicos y financieros para obtener clusters significativos y representativos. K-Means agrupa a las personas en función de la similitud de sus características, por lo que es esencial tener una diversidad de variables que describan el comportamiento financiero desde diferentes ángulos.
+
+Gracias al EDA sabemos que el tiempo que lleva empleado y el ingreso neto afectan significativamente en que una persona incurra en mora, por esto vamos a buscar variables cuantitavas referentes a la los ingresos, deudas, edad, estabilidad laboral y familia.
+
+de esta forma se seleccionan las variables ["CNT_CHILDREN", "REGION_POPULATION_RELATIVE", "AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "CNT_PAYMENT", "AMT_APPLICATION", "AMT_GOODS_PRICE_right", "INGRESO_POR_PERSONA", "CONVERTIDO_DAYS_EMPLOYED", "CONVERTIDO_DAYS_BIRTH"]
 
 
 
