@@ -1,0 +1,129 @@
+¡Excelente idea! Un guion bien estructurado ayudará a presentar esta infografía de manera efectiva. Aquí tienes una propuesta de guion para exponer la infografía sobre las mejores prácticas de MLOps, adaptado a un público mixto y con el contexto de Comfandi.
+
+Guion para la Presentación de la Infografía: MLOps en Producción
+
+(Diapositiva/Sección: Encabezado de la Infografía - Título y Logos)
+
+Presentador: "¡Buenos días a todos! Hoy vamos a explorar un tema crucial para el éxito de nuestros proyectos de Machine Learning en entornos productivos: las Mejores Prácticas de MLOps. Esta infografía, desarrollada con el apoyo de Google y en el contexto de Comfandi, busca ser una guía visual clara y concisa para entender cómo operar modelos de ML de forma moderna, robusta y escalable, utilizando plataformas como Databricks sobre Google Cloud."
+
+(Diapositiva/Sección: 1. Preparación y Entrenamiento del Modelo)
+
+Presentador: "Comencemos por la base: la Preparación y Entrenamiento del Modelo. Un modelo robusto se construye sobre cimientos sólidos. Esto implica tener Datos y Entornos bien definidos. En Comfandi, esto se traduce en el uso de Databricks Delta Lake para datos versionados y validados, asegurando que siempre trabajamos con información consistente y de alta calidad. Además, usamos entornos reproducibles para evitar problemas de dependencias.
+
+Fundamental es también el Versionado de Código y Modelo. Utilizamos Git para nuestro código y MLflow Model Registry en Databricks para los modelos. Esto nos permite tener una trazabilidad completa, sabiendo exactamente qué versión del modelo y del código generó cada resultado.
+
+Finalmente, las Pruebas Exhaustivas son innegociables. Realizamos pruebas unitarias, de integración y de rendimiento, validando hipótesis y, muy importante, detectando y mitigando posibles sesgos antes de que el modelo llegue a producción."
+
+(Diapositiva/Sección: 2. Despliegue Controlado)
+
+Presentador: "Una vez que el modelo está listo, pasamos al Despliegue Controlado, un proceso que debe ser tan fluido como sea posible. Aquí es donde entra en juego la Integración y Entrega Continua (CI/CD).
+
+Observen el flujo:
+
+    Build (Construcción): Aquí compilamos y empaquetamos el modelo y su código asociado, preparándolos para el despliegue.
+
+    Test (Pruebas): Ejecutamos pruebas automatizadas rigurosas: funcionales, de rendimiento y, crucialmente, de sesgos. Esto asegura que el modelo se comporta como esperamos.
+
+    Deploy (Despliegue): Una vez que las pruebas son exitosas, el modelo se despliega automáticamente en entornos de staging o pre-producción, que replican el ambiente real.
+
+    Validate (Validación): Realizamos validaciones post-despliegue para confirmar que el modelo funciona correctamente y es estable en el nuevo entorno.
+
+    Rollback (Reversión): Si algo sale mal, tenemos la capacidad de revertir rápidamente a una versión estable anterior.
+
+La automatización de este pipeline minimiza el error humano, acelera la entrega de valor y nos permite desplegar de forma segura y con un plan de contingencia."
+
+(Diapositiva/Sección: 3. Monitoreo en Producción)
+
+Presentador: "El despliegue no es el final, es solo el comienzo. La Monitoreo en Producción es una vigilancia constante para asegurar un rendimiento óptimo.
+
+Es vital la Vigilancia del Rendimiento y Drift. Como pueden ver en el gráfico, el rendimiento del modelo puede degradarse con el tiempo. El 'drift' de datos o de concepto ocurre cuando las características de los datos de entrada o la relación entre entrada y salida cambian. Monitoreamos continuamente estas distribuciones y el rendimiento del modelo. Si el rendimiento cae por debajo de un umbral aceptable, se activa una alerta, indicando la necesidad de reentrenamiento.
+
+También es crucial el Monitoreo de Sesgos y Equidad, para asegurar que nuestras predicciones no discriminen a ningún grupo. Además, seguimos de cerca el Rendimiento del Modelo y Latencia, usando métricas de negocio y técnicas. Y por supuesto, mantenemos Logs y Trazabilidad detallados para cualquier auditoría o depuración."
+
+(Diapositiva/Sección: 4. Reentrenamiento y Ciclo de Vida Automatizado)
+
+Presentador: "El monitoreo nos lleva a la siguiente fase: el Reentrenamiento y Ciclo de Vida Automatizado. Los modelos no son estáticos; necesitan adaptarse a un mundo en constante cambio.
+
+Aquí visualizamos la Arquitectura del Ciclo de Vida de ML. Es un proceso continuo:
+
+    Procesar Datos: Recopilar, preprocesar e ingenierizar características.
+
+    Feature Store: Almacenar características de forma centralizada para su reutilización.
+
+    Desarrollar Modelo: Entrenar, ajustar y evaluar nuevas versiones del modelo.
+
+    Desplegar: Poner el modelo en producción para inferencia en tiempo real o por lotes.
+
+    Monitorear: Vigilar su rendimiento, detectar drift y sesgos.
+
+Lo más importante son los Bucles de Retroalimentación. Los datos de rendimiento y drift que obtenemos del monitoreo se retroalimentan a las fases de procesamiento de datos y reentrenamiento, cerrando el ciclo y asegurando que el modelo se mantenga relevante y preciso sin intervención manual constante."
+
+(Diapositiva/Sección: 5. Ejemplos de Arquitectura de MLOps por Plataforma)
+
+Presentador: "Para ilustrar cómo estas arquitecturas se materializan, veamos ejemplos de proveedores de nube líderes. Aunque los nombres de los servicios varían, los principios fundamentales de MLOps son consistentes.
+
+Aquí tienen una Arquitectura de Ciclo de Vida de ML de AWS y una Arquitectura de ML Clásico de Azure. Ambas muestran cómo se orquestan las diferentes etapas, desde la preparación de datos hasta el monitoreo, utilizando sus respectivas herramientas y servicios. Esto demuestra la universalidad de las mejores prácticas de MLOps, independientemente de la plataforma específica."
+
+(Diapositiva/Sección: 6. Despliegue y Arquitectura en Comfandi)
+
+Presentador: "Ahora, aterricemos esto en nuestro contexto: el Despliegue y Arquitectura en Comfandi.
+
+Primero, nuestra Estructura de Directorios del Proyecto está organizada para la claridad y la eficiencia. Tenemos carpetas dedicadas para datos (raw, processed, models), notebooks para la experimentación, y un directorio src con módulos para la ingesta, limpieza, ingeniería de características, clustering y el script principal.
+
+El Flujo de Trabajo del Modelo de Clustering en Comfandi es un ejemplo práctico de cómo operamos:
+
+    Inicia con limpieza_tablas, un job que limpia y preprocesa nuestras bases de datos originales.
+
+    Luego, join_tablas_datamart une estas tablas para crear nuestro DataFrame maestro.
+
+    Los jobs MDT, MDT_2, MDT_3 son pasos intermedios para construir la Matriz de Datos de Trabajo (MDT), necesarios por limitaciones de recursos.
+
+    MDT_final es el resultado consolidado, listo para el modelo.
+
+Desde MDT_final, el flujo se bifurca:
+
+    Hacia reentrenamiento_modelo_clustering, que reentrena el modelo periódicamente para mejorar la calidad del agrupamiento. Este proceso requiere un espacio de ejecución no concurrido para un mejor rendimiento, y su tiempo depende de la disponibilidad de recursos de las ETL.
+
+    Y hacia Predicciones_clustering, que utiliza el modelo entrenado para generar nuevas predicciones. Es vital que los nuevos datos pasen por las mismas etapas de limpieza y transformación, y que se eviten múltiples filas por cliente para prevenir errores."
+
+(Diapositiva/Sección: 7. Errores Comunes al Desplegar un Modelo en Producción)
+
+Presentador: "Conocer las mejores prácticas es clave, pero también lo es identificar y Evitar los Errores Comunes al Desplegar un Modelo en Producción. Estos son algunos de los obstáculos más frecuentes:
+
+    Drift de Datos No Detectado: Si no monitoreamos los cambios en los datos, el modelo perderá precisión silenciosamente.
+
+    Falta de Validación de Entradas: Los modelos esperan datos en formatos específicos; entradas incorrectas pueden causar fallos.
+
+    Conjunto de Pruebas Inadecuado: Unas pruebas insuficientes o estáticas llevan a un modelo que no generaliza bien en datos reales.
+
+    Falta de Versionado y Gobernanza: Sin control de versiones, es imposible reproducir resultados o gestionar el ciclo de vida del modelo.
+
+    Despliegue Manual y Procesos No Automatizados: Esto introduce errores humanos y ralentiza la innovación.
+
+    Ignorar Sesgos del Modelo: No abordar los sesgos puede llevar a decisiones injustas, con implicaciones éticas y legales.
+
+    Falta de Plan de Rollback: Sin un plan de reversión, un despliegue fallido puede causar interrupciones prolongadas del servicio.
+
+Evitar estos errores es tan importante como aplicar las buenas prácticas."
+
+(Diapositiva/Sección: 8. Guía Rápida de Usuario)
+
+Presentador: "Para finalizar, una Guía Rápida de Usuario que resume los puntos clave de nuestros workflows y algunas recomendaciones.
+
+En cuanto al Flujo de Trabajo (Workflows), hemos visto las fases de Preparación de Datos (limpieza_tablas, join_tablas_datamart, MDT, MDT_2, MDT_3, MDT_final) y la Fase de Ejecución del Modelo (reentrenamiento_modelo_clustering y Predicciones_clustering).
+
+En nuestras Notas y Recomendaciones, destacamos:
+
+    La importancia del Reentrenamiento y Mejoras periódicas para la calidad del clustering.
+
+    El Rendimiento está ligado a la disponibilidad de recursos de las ETL, por lo que se recomienda un espacio de ejecución no concurrido para procesos críticos.
+
+    La Portabilidad es un factor a considerar si los procesos se migran a otro dataplatform.
+
+    Y la Ingesta de Nuevos Datos debe ser resumida a nivel de cliente y tratada con la misma limpieza y transformación.
+
+Finalmente, sobre el Versionado y Portabilidad de Modelos: en Comfandi, cada versión del modelo se almacena como un asset tipo MLmodel en Stratio Rocket, mientras que los stages de entrenamiento se gestionan en el asset MLtrainer. El modelo es migrabable entre plataformas de datos, pero el trainer no. Sin embargo, las principales nubes (AWS con SageMaker, Google Cloud con Vertex AI, Azure con Azure ML) ofrecen sus propias alternativas para la migración de modelos, lo que nos da flexibilidad."
+
+(Diapositiva/Sección: Pie de Página de la Infografía - Logos y Copyright)
+
+Presentador: "Con esto concluimos nuestra guía visual sobre las mejores prácticas de MLOps. Esperamos que esta infografía les brinde una comprensión clara y práctica de cómo operar modelos de Machine Learning de manera eficiente y robusta.
